@@ -5,7 +5,7 @@
 #include "OpCodeFactory.h"
 #include <cstddef>
 #include <iostream>
-
+#include "JmpCode.h"
 /**
  * Technical Spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM 
  * 
@@ -66,6 +66,11 @@
 #define OPCODE_MASK 0xF000
 #define OPCODE_ADDR_MASK 0xFFF
 
+/**
+ * Function: createOpCode
+ * Param: uint32_t opcode to decode
+ * return OpCpode object if decoding sucess, false otherwise
+ * */
 OpCode* OpCodeFactory::createOpCode(uint32_t op) {
    OpCode* opCode = NULL;
    uint32_t cmd = op & OPCODE_MASK; //parse cmd group
@@ -76,7 +81,7 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_JMP : {  
-         cout << "JP " << hex << addr << ";" << endl; 
+         opCode = new JmpCode(addr);
          break;
       }
       case OPCODE_CALL: {
@@ -124,10 +129,4 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
 OpCode* OpCodeFactory::createOpCode(const std::string&) {
    OpCode* opCode = NULL;
    return opCode;
-}
-
-int main () {
-
-   int cmd = 0x10AD;
-   OpCodeFactory::createOpCode(cmd);
 }
