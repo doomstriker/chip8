@@ -1,3 +1,4 @@
+#pragma once
 class Chip8 : public Cpu {
     private:
         //program counter

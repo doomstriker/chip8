@@ -2,6 +2,7 @@
  * Name: OpCodeFactory
  * Description:  OpCodes Factory
  **/
+#pragma once
 #include "Cpu.h"
 #include "OpCode.h"
 #include <string>
