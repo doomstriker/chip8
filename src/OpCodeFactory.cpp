@@ -5,7 +5,10 @@
 #include "OpCodeFactory.h"
 #include <cstddef>
 #include <iostream>
+#include "OpCode.h"
 #include "JmpCode.h"
+#include "ClsCode.h"
+#include "LdCode.h"
 /**
  * Technical Spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM 
  * 
@@ -78,6 +81,9 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
 
    switch(cmd) {
       case OPCODE_SYS : {
+         if (op == OPCODE_CLS) {
+            opCode = new ClsCode();
+         }
          break;
       }
       case OPCODE_JMP : {  
@@ -97,18 +103,21 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_LD: {
+         opCode = new LdCode(OpCode::LD,addr);
          break;
       }
       case OPCODE_ADD: {
          break;
       }
       case OPCODE_LDE: {
+         opCode = new LdCode(OpCode::LDE,addr);
          break;
       }
       case OPCODE_SNEXY: {
          break;
       }
       case OPCODE_LDI: {
+         opCode = new LdCode(OpCode::LDI,addr);
          break;
       }
       case OPCODE_JPV: {
