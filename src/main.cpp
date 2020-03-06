@@ -21,38 +21,13 @@ if(argc == 2 ) {
 
 
   // open the file:
-    // ifstream file(fileName, std::ios::binary);
-
-    // file.unsetf(std::ios::skipws);
-
-    // streampos fileSize;
-
-    // file.seekg(0, std::ios::end);
-    // //only reseve size
-    // fileSize = file.tellg();
-    // file.seekg(0, std::ios::beg);
-
-    // data.reserve(fileSize);
-    cout << "Reading " << fileName << endl;
-    // read the data:
-    // data.insert(data.begin(),
-    //            istream_iterator<uint8_t>(file),
-    //            istream_iterator<uint8_t>());
    
+    cout << "Reading " << fileName << endl;
+  
    FILE* romFile = fopen(fileName.c_str(), "r");
     int16_t instr = 0;
     int j = 0;
-  /*  while(true)
-   {
-      instr = fgetc(romFile);
- cout << "j="<<++j << " " << instr << " l="<< hex<< instr <<"s:"<< data.size() << endl;
-      if (feof(romFile))
-      {
-        fclose(romFile);
-         break;
-      }
-      data.push_back(instr);
-   } */
+  
    std::ifstream stream(fileName, std::ios::in | std::ios::binary);
 std::vector<uint8_t> data((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
 // for(auto i: data) {

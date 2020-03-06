@@ -12,6 +12,16 @@ class Chip8 : public Cpu {
     uint8_t getRegister(uint8_t reg) {
         return _registers[reg & 0xf];
     }
+
+    void incrementPC(uint8_t count) {
+
+    }
+    uint16_t getPC() { return _pc;}
+    void setPC(uint8_t addr) {
+        
+    }
+    const stack<uint8_t>& getSP() { return _sp;}
+
      void setRegister(uint8_t reg,uint8_t val) {
          if (reg > sizeof(_registers)) { //array len
              return;
@@ -35,7 +45,5 @@ class Chip8 : public Cpu {
         uint8_t _registers[16];
         static Chip8* _instance;
     Chip8() { memset(_registers, 0, sizeof(_registers));
-    _registers[0]=1;
-    cout<< "Reg:" << _registers[0] << endl;
     } //private 
 };

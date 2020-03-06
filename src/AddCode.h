@@ -1,12 +1,12 @@
 #pragma once
 #include "OpCode.h"
 
-#define JMP_LBL "JP "
-class JmpCode : public OpCode {
+#define ADD_LBL "ADD "
+class AddCode : public OpCode {
     private:
 
     public:
-        JmpCode(OpCodeType op,uint32_t args) : OpCode(op,JMP_LBL,args) { }    
+        AddCode(OpCodeType op,uint32_t args) : OpCode(op,ADD_LBL,args) { }    
     // execute the OPCode instruction
      int execute(Cpu &) ;
      string disassemble();

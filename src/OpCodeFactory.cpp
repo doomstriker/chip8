@@ -11,6 +11,8 @@
 #include "LdCode.h"
 #include "RndCode.h"
 #include "SkipCode.h"
+#include "AddCode.h"
+#include "CallCode.h"
 /**
  * Technical Spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM 
  * 
@@ -91,10 +93,11 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_JMP : {  
-         opCode = new JmpCode(addr);
+         opCode = new JmpCode(OpCode::JMP,addr);
          break;
       }
       case OPCODE_CALL: {
+         opCode = new CallCode(addr);
          break;
       }
       case OPCODE_SE: {
@@ -114,6 +117,7 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_ADD: {
+         opCode = new AddCode(OpCode::ADD,addr);
          break;
       }
       case OPCODE_LDE: {
@@ -129,6 +133,7 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_JPV: {
+         opCode = new JmpCode(OpCode::JPV,addr);
          break;
       }
       case OPCODE_RND: {

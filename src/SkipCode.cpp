@@ -9,25 +9,59 @@ using namespace std;
      int SkipCode::execute(Cpu &) {
         int vx = this->_args >> 8;
          int val = this->_args & 0xff;
-        switch(this->_op) {
-            case LD: {
-                Chip8::getInstance()->setRegister(vx,val);
+       switch(this->_op) {
+            case SE: {
+                //SE Vx,byte
+                uint8_t vxVal = Chip8::getInstance()->getRegister(vx);
+                if( vxVal == val) {
+                     Chip8::getInstance()->incrementPC(2);
+                     //verify PC
+                }
+                 break;
+            }
+            case SNE: {
+                //SNE Vx,byte
+                uint8_t vxVal = Chip8::getInstance()->getRegister(vx);
+                if( vxVal == val) {
+                     Chip8::getInstance()->incrementPC(2);
+                     //verify PC
+                }
                 break;
             }
-            case LDE: {
-                //LD Vx = Vy
-                uint8_t vy = ((val >> 4) & 0x0f);
-                uint8_t vyVal = Chip8::getInstance()->getRegister(val);
-                Chip8::getInstance()->setRegister(vx,vyVal);
+            case SEXY: {
+                //SE Vx,Vy
+                int vy = ((val >> 4) & 0x0f);
+                uint8_t vyVal = Chip8::getInstance()->getRegister(vy);
+                uint8_t vxVal = Chip8::getInstance()->getRegister(vx);
+                if( vxVal == vyVal) {
+                     Chip8::getInstance()->incrementPC(2);
+                     //verify PC
+                }
                 break;
             }
-            case LDI: {
-                //LD I = addr
-                val = (_args & 0xfff );
-                Chip8::getInstance()->setIndex(val); 
+ 
+            case SNEXY: {
+                //SNE Vx,Vy
+                //SE Vx,Vy
+                int vy = ((val >> 4) & 0x0f);
+                uint8_t vyVal = Chip8::getInstance()->getRegister(vy);
+                uint8_t vxVal = Chip8::getInstance()->getRegister(vx);
+                if( vxVal != vyVal) {
+                     Chip8::getInstance()->incrementPC(2);
+                     //verify PC
+                }
+                break;
+            }
+            case SKP: {
+                //str << SKP_LBL << "V" << hex << vx << endl;
+                break;
+            }
+            case SKNP: {
+                //str << SKNP_LBL << "V" << hex << vx << endl;
                 break;
             }
         }
+         
          return 1;
      }
      string SkipCode::disassemble() {
