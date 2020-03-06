@@ -1,4 +1,4 @@
-#include "LdCode.h"
+#include "SkipCode.h"
 #include <sstream>
 #include <iostream>
 #include <string>
@@ -6,7 +6,7 @@
 
 using namespace std;
     // execute the OPCode instruction
-     int LdCode::execute(Cpu &) {
+     int SkipCode::execute(Cpu &) {
         int vx = this->_args >> 8;
          int val = this->_args & 0xff;
         switch(this->_op) {
@@ -30,28 +30,41 @@ using namespace std;
         }
          return 1;
      }
-     string LdCode::disassemble() {
+     string SkipCode::disassemble() {
         ostringstream str;
         int vx = this->_args >> 8;
         int val = this->_args & 0xff;
- 
-        str << _label ;
+
         switch(this->_op) {
-            case LD: {
-                //LD Vx = byte
-                str << "V"<< hex << vx << "," << val << endl;
+            case SE: {
+                //SE Vx,byte
+                str << SE_LBL << "V" << hex << vx << "," << val << endl;
                 break;
             }
-            case LDE: {
-                //LD Vx = Vy
+            case SNE: {
+                //SNE Vx,byte
+                 str << SNE_LBL<< "V"<< hex << vx << "," << val << endl;
+                break;
+            }
+            case SEXY: {
+                //SE Vx,Vy
                 val = ((val >> 4) & 0x0f);
-                str << " V"<< hex << vx << ",V" << val << endl;
+                str << SE_LBL<< "V"<< hex << vx << ",V" << val << endl;
                 break;
             }
-            case LDI: {
-                //LD I = addr
+ 
+            case SNEXY: {
+                //SNE Vx,Vy
                 val = (_args & 0xfff );
-                str << "I," << hex << val << endl;
+                str << SNE_LBL<< "V"<< hex << vx << ",V" << val << endl;
+                break;
+            }
+            case SKP: {
+                str << SKP_LBL << "V" << hex << vx << endl;
+                break;
+            }
+            case SKNP: {
+                str << SKNP_LBL << "V" << hex << vx << endl;
                 break;
             }
         }
