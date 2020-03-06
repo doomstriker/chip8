@@ -9,6 +9,8 @@
 #include "JmpCode.h"
 #include "ClsCode.h"
 #include "LdCode.h"
+#include "RndCode.h"
+#include "SkipCode.h"
 /**
  * Technical Spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM 
  * 
@@ -38,6 +40,8 @@
 #define OPCODE_JPV   0xB000
 #define OPCODE_RND   0xC000
 #define OPCODE_DRW   0xD000
+#define OPCODE_SKIP_MSK  0xE000
+
 #define OPCODE_SKP   0xE09E
 #define OPCODE_SKNP  0xE0A1
 
@@ -94,12 +98,15 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_SE: {
+         opCode = new SkipCode(OpCode::SE,addr);
          break;
       }
       case OPCODE_SNE: {
+         opCode = new SkipCode(OpCode::SNE,addr);
          break;
-      }
+     }
       case OPCODE_SEXY: {
+         opCode = new SkipCode(OpCode::SEXY,addr);
          break;
       }
       case OPCODE_LD: {
@@ -114,6 +121,7 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_SNEXY: {
+         opCode = new SkipCode(OpCode::SNEXY,addr);
          break;
       }
       case OPCODE_LDI: {
@@ -124,9 +132,24 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_RND: {
+         opCode = new RndCode(addr);
          break;
       }
       case OPCODE_DRW: {
+         break;
+      }
+      case OPCODE_SKIP_MSK: {
+         addr &=0xff ;
+         switch(addr) {
+            case OPCODE_SKP: {
+               opCode = new SkipCode(OpCode::SKP,addr);
+               break;
+            }
+            case OPCODE_SKNP: {
+               opCode = new SkipCode(OpCode::SKNP,addr);
+               break;
+            }
+         } 
          break;
       }
    }
