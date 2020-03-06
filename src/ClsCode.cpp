@@ -1,17 +1,17 @@
-#include "JmpCode.h"
+#include "ClsCode.h"
 #include <sstream>
 #include <iostream>
 #include <string>
 
 using namespace std;
     // execute the OPCode instruction
-     int JmpCode::execute(Cpu &) {
+     int ClsCode::execute(Cpu &) {
          return 1;
      }
-     string JmpCode::disassemble() {
+     string ClsCode::disassemble() {
          ostringstream str;
 
-         str << _label << hex << _args << endl;
+         str << _label << endl;
 
          return str.str();
      }

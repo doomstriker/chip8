@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 
    int cmd = 0x10AF;
    string fileName = "";
-   vector<uint8_t> data;
+   //vector<uint8_t> data;
 
 if(argc == 2 ) {
   fileName = argv[1];
@@ -40,23 +40,33 @@ if(argc == 2 ) {
     //            istream_iterator<uint8_t>());
    
    FILE* romFile = fopen(fileName.c_str(), "r");
-    uint8_t instr = 0;
+    int16_t instr = 0;
     int j = 0;
-   while(true)
+  /*  while(true)
    {
       instr = fgetc(romFile);
- cout << "j="<<++j << " " << hex << instr << "size:"<< data.size() << endl;
+ cout << "j="<<++j << " " << instr << " l="<< hex<< instr <<"s:"<< data.size() << endl;
       if (feof(romFile))
       {
+        fclose(romFile);
          break;
       }
       data.push_back(instr);
-   }
+   } */
+   std::ifstream stream(fileName, std::ios::in | std::ios::binary);
+std::vector<uint8_t> data((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+for(auto i: data) {
+    int value = i;
+    std::cout << "data["<<++j<<"]=" << hex<<value << std::endl;
+}
+
+std::cout << "file size: " << data.size() << std::endl;
    cout<<"Processed "<< hex << data.size()<<endl;
     for(int i = 0 ; i < data.size();)  {
-      uint16_t myinstr = data[i] || (data[i+1] << 8);
-      cout << i << " " << hex << myinstr << endl;
-      OpCode* op = OpCodeFactory::createOpCode(instr);
+      uint32_t myinstr =(( data[i] <<8 )| (data[i+1] ));
+      printf("%d=%0x\n",i,myinstr);
+      //cout << i << " " << hex << myinstr << endl;
+      OpCode* op = OpCodeFactory::createOpCode(myinstr);
       if (op != NULL ) {
         cout << op->disassemble();
       }
