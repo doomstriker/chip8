@@ -37,13 +37,14 @@ std::vector<uint8_t> data((std::istreambuf_iterator<char>(stream)), std::istream
 
 std::cout << "file size: " << data.size() << std::endl;
    cout<<"Processed "<< hex << data.size()<<endl;
+   
     for(int i = 0 ; i < data.size();)  {
       uint32_t myinstr =(( data[i] <<8 )| (data[i+1] ));
    //   printf("%d=%0x\n",i,myinstr);
       //cout << i << " " << hex << myinstr << endl;
       OpCode* op = OpCodeFactory::createOpCode(myinstr);
       if (op != NULL ) {
-        cout << op->disassemble();
+        cout << hex << (0x200 + i ) << "    "<< op->disassemble();
       }
       i+=2; 
     }
