@@ -13,6 +13,8 @@
 #include "SkipCode.h"
 #include "AddCode.h"
 #include "CallCode.h"
+#include "OrAndCode.h"
+#include "SubShiftCode.h"
 /**
  * Technical Spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM 
  * 
@@ -121,8 +123,46 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_LDE: {
-         opCode = new LdCode(OpCode::LDE,addr);
-         break;
+         // add others
+         int mask = op & 0x800F;
+         switch( mask ) {
+            case OPCODE_LDE: {
+               opCode = new LdCode(OpCode::LDE,addr);
+               break;
+            }
+            case OPCODE_OR: {
+               opCode = new OrAndCode(OpCode::OR,addr);
+               break;
+           }
+            case OPCODE_AND: {
+               opCode = new OrAndCode(OpCode::AND,addr);
+               break;
+            }
+            case OPCODE_XOR: {
+               opCode = new OrAndCode(OpCode::XOR,addr);
+               break;
+            }
+            case OPCODE_ADDXY: {
+               opCode = new AddCode(OpCode::ADDXY,addr);
+               break;
+            }
+            case OPCODE_SUB: {
+               opCode = new SubShiftCode(OpCode::SUB,addr);
+               break;
+            }
+            case OPCODE_SHR: {
+              opCode = new SubShiftCode(OpCode::SHR,addr);
+                break;
+            }
+            case OPCODE_SUBN: {
+               opCode = new SubShiftCode(OpCode::SUBN,addr);
+               break;
+            }
+            case OPCODE_SHL: {
+               opCode = new SubShiftCode(OpCode::SHL,addr);
+               break;
+            }
+         }
       }
       case OPCODE_SNEXY: {
          opCode = new SkipCode(OpCode::SNEXY,addr);
