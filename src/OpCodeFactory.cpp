@@ -15,6 +15,7 @@
 #include "CallCode.h"
 #include "OrAndCode.h"
 #include "SubShiftCode.h"
+#include "DrawCode.h"
 /**
  * Technical Spec: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM 
  * 
@@ -181,6 +182,7 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_DRW: {
+         opCode = new DrawCode(addr);
          break;
       }
       case OPCODE_SKIP_MSK: {

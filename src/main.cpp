@@ -6,7 +6,7 @@
 #include <iterator>
 
 using namespace std;
-int main2(int argc, char **argv) {
+int main(int argc, char **argv) {
 
    int cmd = 0x10AF;
    string fileName = "";
@@ -48,6 +48,6 @@ std::cout << "file size: " << data.size() << std::endl;
       }
       i+=2; 
     }
-    
+    return 1;
 
 }
