@@ -50,6 +50,7 @@
 #define OPCODE_SKP   0xE09E
 #define OPCODE_SKNP  0xE0A1
 
+#define OPCODE_F_MASK 0xF000
 #define OPCODE_DTLD 0xF007
 #define OPCODE_WAIT_KP 0xF00A
 #define OPCODE_DTSET 0xF015
@@ -186,8 +187,7 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
          break;
       }
       case OPCODE_SKIP_MSK: {
-         addr &=0xff ;
-         switch(addr) {
+         switch(addr & 0xff) {
             case OPCODE_SKP: {
                opCode = new SkipCode(OpCode::SKP,addr);
                break;
@@ -197,6 +197,47 @@ OpCode* OpCodeFactory::createOpCode(uint32_t op) {
                break;
             }
          } 
+         break;
+      }
+      case OPCODE_F_MASK: {
+         switch(addr & 0xf0ff) {
+            case OPCODE_DTLD: {
+               opCode = new LdCode(OpCode::DTLD,addr);
+               break;
+            }
+            case OPCODE_WAIT_KP: {
+               opCode = new LdCode(OpCode::WAIT_KP,addr);
+               break;
+            }
+            case OPCODE_DTSET: {
+               opCode = new LdCode(OpCode::DTSET,addr);
+               break;
+            }
+            case OPCODE_STSND: {
+                opCode = new LdCode(OpCode::STSND,addr);
+              break;
+            }
+            case OPCODE_ADDI: {
+                opCode = new AddCode(OpCode::ADDI,addr);
+                break;
+            }
+            case OPCODE_SPRI: {
+                opCode = new LdCode(OpCode::SPRI,addr);
+               break;
+            }
+            case OPCODE_BCDI: {
+               opCode = new LdCode(OpCode::BCDI,addr);
+               break;
+            } 
+            case OPCODE_WTI: {
+               opCode = new LdCode(OpCode::WTI,addr);               
+               break;
+            }
+            case OPCODE_RDI: {
+               opCode = new LdCode(OpCode::RDI,addr);
+               break;
+            }
+         }
          break;
       }
    }

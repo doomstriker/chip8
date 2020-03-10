@@ -27,6 +27,30 @@ using namespace std;
                 Chip8::getInstance()->setIndex(val); 
                 break;
             }
+            case DTLD: {
+                break;
+            }
+            case WAIT_KP: {
+                break;
+            }
+            case DTSET: {
+                break;
+            }
+            case STSND: {
+                break;
+            }
+            case SPRI: {
+                break;
+            }
+            case BCDI: {
+                break;
+            }
+            case WTI: {
+                break;
+            }
+            case RDI: {
+                break;
+            }  
         }
          return 1;
      }
@@ -54,6 +78,38 @@ using namespace std;
                 str << "I," << hex << val << endl;
                 break;
             }
+            case DTLD: {
+                str << " V"<< hex << vx << ", DT" << endl;
+                break;
+            }
+            case WAIT_KP: {
+                str << " V"<< hex << vx << ", K" << endl;
+                break;
+            }
+            case DTSET: {
+                str << "DT, V"<< hex << vx << endl;
+                break;
+            }
+            case STSND: {
+                str << "ST, V"<< hex << vx << endl;
+                break;
+            }
+            case SPRI: {
+                str << "F,  V"<< hex << vx << endl;
+                break;
+            }
+            case BCDI: {
+                str << "B, V"<< hex << vx << endl;
+                break;
+            }
+            case WTI: {
+                str << "[I], V"<< hex << vx << ",DT" << endl;
+                break;
+            }
+            case RDI: {
+                str << " V"<< hex << vx << ", [I]" << endl;
+                break;
+            }  
         }
          
          return str.str();
